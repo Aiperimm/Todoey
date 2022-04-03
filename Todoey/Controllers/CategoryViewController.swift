@@ -22,7 +22,7 @@ class CategoryViewController: UITableViewController {
         super.viewDidLoad()
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         
-        //loadCategories()
+        loadCategories()
         
     }
     
@@ -40,7 +40,7 @@ class CategoryViewController: UITableViewController {
                                                   for: indexPath)
         
         
-        cell.textLabel?.text = categories[indexPath.row].name
+        cell.textLabel?.text = categories?[indexPath.row].name ?? "No Categories Added yet"
         
         return cell
         
@@ -117,7 +117,7 @@ class CategoryViewController: UITableViewController {
         let destinationVC = segue.destination as! ToDoListViewController
         
         if let indexPath = tableView.indexPathForSelectedRow {
-            destinationVC.selectedCategory = categories[indexPath.row]
+            destinationVC.selectedCategory = categories?[indexPath.row]
         }
     }
     
