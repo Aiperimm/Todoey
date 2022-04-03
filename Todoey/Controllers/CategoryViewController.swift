@@ -14,7 +14,7 @@ class CategoryViewController: UITableViewController {
     
     let realm = try! Realm()
     
-    var categories = [Category]()
+    var categories: Results<Category>?
     
     
     
@@ -22,14 +22,15 @@ class CategoryViewController: UITableViewController {
         super.viewDidLoad()
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         
-        loadCategories()
+        //loadCategories()
         
     }
     
     // MARK: - TableView Datasource Methods
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return categories.count
+       
+        return categories?.count ?? 1 // <-- this is nil coalising operator
         
     }
     
@@ -65,7 +66,7 @@ class CategoryViewController: UITableViewController {
     
     func loadCategories() {
         
-        let categories = realm.objects(Category.self)
+        categories = realm.objects(Category.self)
         
 
         tableView.reloadData()
@@ -85,7 +86,6 @@ class CategoryViewController: UITableViewController {
             let newCategory = Category()
             newCategory.name = textField.text!
             
-            self.categories.append(newCategory)
             
             self.save(category: newCategory)
             
