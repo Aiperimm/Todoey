@@ -105,8 +105,6 @@ class CategoryViewController: UITableViewController {
         }
         
     
-    
-    
     // MARK: - TableView Delegate Mathods
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

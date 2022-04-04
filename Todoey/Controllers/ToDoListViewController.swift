@@ -54,7 +54,6 @@ class ToDoListViewController: UITableViewController {
         }
         
         
-        
         return cell
         
     }
@@ -62,7 +61,18 @@ class ToDoListViewController: UITableViewController {
     // MARK: - TableView Delegate Methods
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // print(itemArray[indexPath.row])
+        
+        if let item = todoItems? [indexPath.row] {
+            do {
+                try realm.write {
+                    item.done = !item.done
+                }
+            } catch {
+                print("Error saving done status, \(error)")
+            }
+        }
+        
+        tableView.reloadData()
         
         
         //        context.delete(itemArray[indexPath.row])
@@ -88,16 +98,23 @@ class ToDoListViewController: UITableViewController {
         let action = UIAlertAction(title: "Add Item", style: .default) { action in
             // what will happen once the user clicks the Add item butoon on our UIAlert
             
+            if let currentCategory = self.selectedCategory {
+                do {
+                    try self.realm.write {
+                        let newItem = Item()
+                        newItem.title = textField.text!
+                        currentCategory.items.append(newItem)
+                        
+                    }
+                } catch {
+                    print("Error saving new items, \(error)")
+                }
+            }
             
-//            let newItem = Item(context: self.context)
-//            newItem.title = textField.text!
-//            newItem.done = false
-//            newItem.parentCategory = self.selectedCategory
-//            self.itemArray.append(newItem)
-            
-            self.saveItems()
-            
+            self.tableView.reloadData()
         }
+        
+        
         alert.addTextField { alertTextField in
             alertTextField.placeholder = "Create new item"
             textField = alertTextField
@@ -112,21 +129,14 @@ class ToDoListViewController: UITableViewController {
     }
     
     // MARK: - Model Manupulation Methods
-    
    
-        
-    }
-    
     func loadItems() {
         
-        itemArray = selectedCategory?.items.sorted(byKeyPath: "title", acsending: true)
-
+        todoItems = selectedCategory?.items.sorted(byKeyPath: "title", ascending: true)
         tableView.reloadData()
 
     }
 
-    
-}
 
 // MARK: - Search bar methods
 
@@ -156,3 +166,4 @@ class ToDoListViewController: UITableViewController {
 //
 //    }
 //}
+}
