@@ -29,18 +29,18 @@ class CategoryViewController: UITableViewController {
     // MARK: - TableView Datasource Methods
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       
+        
         return categories?.count ?? 1 // <-- this is nil coalising operator
         
     }
     
-//    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! SwipeTableViewCell
-//        cell.delegate = self
-//        return cell
-//    }
-//
-//
+    //    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    //        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! SwipeTableViewCell
+    //        cell.delegate = self
+    //        return cell
+    //    }
+    //
+    //
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -48,9 +48,9 @@ class CategoryViewController: UITableViewController {
                                                   for: indexPath) as! SwipeTableViewCell
         cell.textLabel?.text = categories?[indexPath.row].name ?? "No Categories Added yet"
         cell.delegate = self
-
+        
         return cell
-
+        
     }
     
     
@@ -77,7 +77,7 @@ class CategoryViewController: UITableViewController {
         
         categories = realm.objects(Category.self)
         
-
+        
         tableView.reloadData()
     }
     
@@ -109,10 +109,10 @@ class CategoryViewController: UITableViewController {
             textField.placeholder = "Add a new category"
             
         }
-          present(alert, animated: true, completion: nil)
-            
-        }
+        present(alert, animated: true, completion: nil)
         
+    }
+    
     
     // MARK: - TableView Delegate Mathods
     
@@ -128,7 +128,7 @@ class CategoryViewController: UITableViewController {
         }
     }
     
-   
+    
     
 }
 
@@ -138,15 +138,25 @@ extension CategoryViewController: SwipeTableViewCellDelegate {
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
         guard orientation == .right else { return nil }
-
+        
         let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
             // handle action by updating model with deletion
-            print("Item deleted")
+            
+            if let categoryForDeletion = self.categories?[indexPath.row] {
+                do {
+                    try self.realm.write {
+                        self.realm.delete(categoryForDeletion)
+                    }
+                } catch {
+                    print("Error deleting category, \(error)")
+                }
+                tableView.reloadData()
+            }
         }
-
+        
         // customize the action appearance
         deleteAction.image = UIImage(named: "delete-icon")
-
+        
         return [deleteAction]
     }
     
