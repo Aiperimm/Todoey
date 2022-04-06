@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import SwipeCellKit
 
 class CategoryViewController: UITableViewController {
     
@@ -31,17 +32,22 @@ class CategoryViewController: UITableViewController {
         
     }
     
+//    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//
+//        let  cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell",
+//                                                  for: indexPath)
+//
+//        cell.textLabel?.text = categories?[indexPath.row].name ?? "No Categories Added yet"
+//
+//        return cell
+//
+//    }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let  cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell",
-                                                  for: indexPath)
-        
-        
-        cell.textLabel?.text = categories?[indexPath.row].name ?? "No Categories Added yet"
-        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! SwipeTableViewCell
+        cell.delegate = self
         return cell
-        
     }
+    
     
     
     // MARK: - Data Manipulation Methods
