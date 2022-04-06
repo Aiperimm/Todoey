@@ -9,14 +9,11 @@
 import UIKit
 import RealmSwift
 
-
 class CategoryViewController: UITableViewController {
     
     let realm = try! Realm()
     
     var categories: Results<Category>?
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
