@@ -33,20 +33,24 @@ class CategoryViewController: UITableViewController {
     }
     
 //    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//
-//        let  cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell",
-//                                                  for: indexPath)
-//
-//        cell.textLabel?.text = categories?[indexPath.row].name ?? "No Categories Added yet"
-//
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! SwipeTableViewCell
+//        cell.delegate = self
 //        return cell
-//
 //    }
+//
+//
+    
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! SwipeTableViewCell
+        let  cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell",
+                                                  for: indexPath) as! SwipeTableViewCell
+        cell.textLabel?.text = categories?[indexPath.row].name ?? "No Categories Added yet"
         cell.delegate = self
+
         return cell
+
     }
+    
     
     
     
@@ -126,3 +130,21 @@ class CategoryViewController: UITableViewController {
     
 }
 
+// MARK: - Swipe Cell Delegate Methods
+
+extension CategoryViewController: SwipeTableViewCellDelegate {
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        guard orientation == .right else { return nil }
+
+        let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
+            // handle action by updating model with deletion
+        }
+
+        // customize the action appearance
+        deleteAction.image = UIImage(named: "delete")
+
+        return [deleteAction]
+    }
+    
+}
