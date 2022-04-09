@@ -19,10 +19,9 @@ class SwipeTableViewController: UITableViewController, SwipeTableViewCellDelegat
     //Table View DataSource Methods
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let  cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell",
+        let  cell = tableView.dequeueReusableCell(withIdentifier: "Cell",
                                                   for: indexPath) as! SwipeTableViewCell
         
-        cell.textLabel?.text = categories?[indexPath.row].name ?? "No Categories Added Yet"
         
         cell.delegate = self
         
