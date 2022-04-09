@@ -28,9 +28,9 @@ class ToDoListViewController: UITableViewController {
         
         
     }
-
     
-
+    
+    
     // MARK: - Tableview Datasource Methods
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -133,29 +133,29 @@ class ToDoListViewController: UITableViewController {
     }
     
 }
-    // MARK: - Search bar methods
+// MARK: - Search bar methods
+
+extension ToDoListViewController: UISearchBarDelegate {
     
-    extension ToDoListViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        todoItems = todoItems?.filter("title CONTAINS[cd] %@", searchBar.text!).sorted(byKeyPath: "dateCreated", ascending: true)
         
-        func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-            todoItems = todoItems?.filter("title CONTAINS[cd] %@", searchBar.text!).sorted(byKeyPath: "dateCreated", ascending: true)
+        tableView.reloadData()
+        
+    }
+    
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchBar.text?.count == 0 {
+            loadItems()
             
-            tableView.reloadData()
-            
-        }
-        
-        
-        func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-            if searchBar.text?.count == 0 {
-                loadItems()
-                
-                DispatchQueue.main.async {
-                    searchBar.resignFirstResponder()
-                }
-                
-                
+            DispatchQueue.main.async {
+                searchBar.resignFirstResponder()
             }
             
+            
         }
+        
     }
-  
+}
+
