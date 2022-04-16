@@ -82,7 +82,6 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Items" id="RL7-bz-7Tb">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="vub-mz-5Zs">
-                            <color key="tintColor" systemColor="linkColor"/>
                             <connections>
                                 <action selector="addButtonPressed:" destination="eoo-4t-saI" id="vbc-ox-Hxc"/>
                             </connections>
