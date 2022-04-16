@@ -12,6 +12,8 @@ import ChameleonFramework
 
 class ToDoListViewController: SwipeTableViewController {
     
+    
+    @IBOutlet weak var searchBar: UISearchBar!
     var todoItems: Results<Item>?
     let realm = try! Realm()
     
@@ -31,9 +33,14 @@ class ToDoListViewController: SwipeTableViewController {
     override func viewWillAppear(_ animated: Bool) {
         if let colourHex = selectedCategory?.colour {
             
+            title = selectedCategory!.name
+            
+            
             guard let navBar = navigationController?.navigationBar else {fatalError("Navigation controller does not exist.")}
             
-            navigationController?.navigationBar.barTintColor = UIColor(hexString: colourHex)
+            navBar.backgroundColor = UIColor(hexString: colourHex)
+            
+            searchBar.barTintColor = UIColor(hexString: colourHex)
         }
         
     }
