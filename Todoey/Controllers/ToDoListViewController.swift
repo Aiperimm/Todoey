@@ -23,10 +23,19 @@ class ToDoListViewController: SwipeTableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+        
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         
         tableView.separatorStyle = .none
+        
+        if let colourHex = selectedCategory?.colour {
+            
+            guard let navBar = navigationController?.navigationBar else {fatalError("Navigation controller does not exist.")}
+            
+            
+            navigationController?.navigationBar.barTintColor = UIColor(hexString: colourHex)
+        }
+        
     }
     
     // MARK: - Tableview Datasource Methods
@@ -49,9 +58,9 @@ class ToDoListViewController: SwipeTableViewController {
                 cell.textLabel?.textColor = ContrastColorOf(colour, returnFlat: true)
             }
             
-//            print("version 1: \(CGFloat(indexPath.row / todoItems!.count))")
-//
-//            print("version 2: \(CGFloat (indexPath.row) / CGFloat(todoItems!.count))")
+            //            print("version 1: \(CGFloat(indexPath.row / todoItems!.count))")
+            //
+            //            print("version 2: \(CGFloat (indexPath.row) / CGFloat(todoItems!.count))")
             
             // ternary operator ==>
             // value = condition ? valueIfTrue : valueIfFalse
